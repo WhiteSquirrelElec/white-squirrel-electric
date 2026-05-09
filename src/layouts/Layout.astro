@@ -87,7 +87,9 @@ const schema = {
 
     <title>{title}</title>
     <link rel="canonical" href={SITE.siteUrl} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" href="/assets/logo-head.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- LocalBusiness structured data — machine-readable signal to Google -->
     <script type="application/ld+json" set:html={JSON.stringify(schema, null, 2)} />
