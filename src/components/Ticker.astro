@@ -1,0 +1,35 @@
+---
+const services = 'Panel upgrades ✦ EV chargers ✦ Generator hookups ✦ Old wire, new house ✦ Recessed cans ✦ Outdoor lighting ✦ Hot tub circuits ✦ Service calls ✦ Code corrections ✦ ';
+// Repeated twice so translateX(-50%) loops seamlessly
+const marquee = services + services;
+---
+
+<div class="ticker" aria-label="Services we offer" role="marquee">
+  <div class="ticker-track">
+    <span>{marquee}</span>
+  </div>
+</div>
+
+<style>
+  .ticker {
+    background: var(--red);
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 12px 0;
+  }
+
+  .ticker-track {
+    display: inline-block;
+    animation: tick 28s linear infinite;
+  }
+
+  .ticker-track span {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+</style>

@@ -1,0 +1,149 @@
+---
+import Lightbox from './Lightbox.astro';
+
+// Homepage gallery preview — 6 picks chosen for visual range:
+// night drama, interior finish, technical credibility, commercial scale,
+// outdoor project scope, everyday residential. See /work for the full gallery.
+const tiles = [
+  { img: 'job-pavilion-recessed-night.jpeg',     label: 'Covered patio recessed lighting — Etowah', tall: true },
+  { img: 'job-interior-dining-chandelier.jpeg',  label: 'Dining room beam chandelier' },
+  { img: 'job-subpanel-new-install.jpeg',        label: 'New subpanel installation' },
+  { img: 'job-pavilion-porch-exterior-day.jpeg', label: 'Covered patio + screened porch — Etowah', tall: true },
+  { img: 'job-kitchen-pendants-recessed.jpeg',   label: 'Kitchen pendants + recessed lighting' },
+  { img: 'job-commercial-conduit-panels.jpeg',   label: 'Commercial 480V — conduit & panels' },
+];
+---
+
+<section class="gallery" id="work">
+  <div class="section-inner">
+
+    <!-- Header -->
+    <div class="gallery-header">
+      <div>
+        <p class="eyebrow gallery-eyebrow">Recent work</p>
+        <h2 class="gallery-h2">Wire I've pulled lately.</h2>
+      </div>
+      <a href="/work" class="gallery-all-link">Full gallery →</a>
+    </div>
+
+    <!-- Grid -->
+    <div class="gallery-grid">
+      {tiles.map((t) => (
+        <div class={`gallery-tile${t.tall ? ' gallery-tile--tall' : ''}`}>
+          <img
+            src={`/assets/${t.img}`}
+            alt={t.label}
+            loading="lazy"
+            class="gallery-img"
+          />
+          <span class="gallery-caption">{t.label}</span>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<Lightbox />
+
+<style>
+  .gallery {
+    background: var(--paper);
+    padding: var(--section-pad-v) 0;
+  }
+
+  /* Header */
+  .gallery-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .gallery-eyebrow {
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .gallery-h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .gallery-all-link {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 2px;
+    transition: opacity .15s;
+    white-space: nowrap;
+  }
+
+  .gallery-all-link:hover { opacity: .6; }
+
+  /* Grid */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 220px;
+    gap: 14px;
+  }
+
+  .gallery-tile {
+    position: relative;
+    border: 3px solid var(--ink);
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .gallery-tile--tall { grid-row: span 2; }
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .3s ease;
+  }
+
+  .gallery-tile:hover .gallery-img { transform: scale(1.03); }
+
+  .gallery-caption {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 200px;
+    }
+    .gallery-tile--tall { grid-row: span 1; }
+  }
+
+  @media (max-width: 639px) {
+    .gallery-grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 220px;
+    }
+  }
+</style>

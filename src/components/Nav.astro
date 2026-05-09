@@ -1,0 +1,365 @@
+---
+import { SITE } from '../config';
+const { phoneDisplay: PHONE_DISPLAY, phoneTel: PHONE_TEL } = SITE;
+
+// On the homepage, use bare anchors (#about). On any other page, prefix with /
+// so the browser navigates home first, then scrolls to the section (/#about).
+const isHome = Astro.url.pathname === '/';
+const prefix = isHome ? '' : '/';
+---
+
+<nav class="nav">
+  <div class="nav-inner">
+
+    <!-- Logo / brand -->
+    <a href="/" class="nav-brand" aria-label="White Squirrel Electric home">
+      <img src="/assets/logo-head.png" alt="White Squirrel Electric mascot" class="nav-logo-img" />
+      <span class="nav-brand-text">
+        <span class="nav-wordmark">White Squirrel</span>
+        <span class="nav-sub">ELECTRIC · LLC</span>
+      </span>
+    </a>
+
+    <!-- Center links (desktop) -->
+    <ul class="nav-links" role="list">
+      <li><a href={`${prefix}#about`}>About Phil</a></li>
+
+      <li class="nav-item--has-dropdown">
+        <a href={`${prefix}#services`}>Services <span class="nav-caret">▾</span></a>
+        <ul class="nav-dropdown" role="list">
+          <li><a href={`${prefix}#services`}>Overview</a></li>
+          <li><a href="/services">All Services →</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item--has-dropdown">
+        <a href={`${prefix}#work`}>Work <span class="nav-caret">▾</span></a>
+        <ul class="nav-dropdown" role="list">
+          <li><a href={`${prefix}#work`}>Preview</a></li>
+          <li><a href="/work">Full Gallery →</a></li>
+        </ul>
+      </li>
+
+      <li><a href={`${prefix}#reviews`}>Reviews</a></li>
+      <li><a href={`${prefix}#contact`}>Contact</a></li>
+    </ul>
+
+    <!-- Phone CTA -->
+    <a href={`tel:${PHONE_TEL}`} class="nav-cta">
+      ☏ {PHONE_DISPLAY}
+    </a>
+
+    <!-- Hamburger button (mobile only) -->
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
+
+  </div>
+
+  <!-- Mobile nav panel -->
+  <div class="nav-mobile-panel" id="nav-mobile-panel" aria-hidden="true">
+    <ul class="nav-mobile-links" role="list">
+      <li><a href={`${prefix}#about`}>About Phil</a></li>
+      <li><a href={`${prefix}#services`}>Services</a></li>
+      <li class="nav-mobile-sub"><a href="/services">→ All Services</a></li>
+      <li><a href={`${prefix}#work`}>Work</a></li>
+      <li class="nav-mobile-sub"><a href="/work">→ Full Gallery</a></li>
+      <li><a href={`${prefix}#reviews`}>Reviews</a></li>
+      <li><a href={`${prefix}#contact`}>Contact</a></li>
+    </ul>
+    <a href={`tel:${PHONE_TEL}`} class="nav-mobile-cta">☏ {PHONE_DISPLAY}</a>
+  </div>
+</nav>
+
+<script>
+  const hamburger = document.getElementById('nav-hamburger');
+  const panel     = document.getElementById('nav-mobile-panel');
+
+  function openMenu() {
+    panel.classList.add('is-open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    hamburger.classList.add('is-open');
+  }
+
+  function closeMenu() {
+    panel.classList.remove('is-open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hamburger.classList.remove('is-open');
+  }
+
+  hamburger.addEventListener('click', () => {
+    panel.classList.contains('is-open') ? closeMenu() : openMenu();
+  });
+
+  // Close when any panel link is tapped (they're all anchor links)
+  panel.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>
+
+<style>
+  .nav {
+    background: var(--navy);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
+  }
+
+  .nav-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 10px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  /* Brand */
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .nav-logo-img {
+    width: 46px;
+    height: 46px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #fff;
+  }
+
+  .nav-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .nav-wordmark {
+    font-family: 'Pacifico', cursive;
+    font-size: 22px;
+    color: var(--red-soft);
+    line-height: 1;
+  }
+
+  .nav-sub {
+    font-family: 'Anton', sans-serif;
+    font-size: 11px;
+    letter-spacing: .32em;
+    color: rgba(255,255,255,.7);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* Nav links (desktop) */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.85);
+    transition: color .15s;
+  }
+
+  .nav-links a:hover {
+    color: #fff;
+  }
+
+  /* Dropdown */
+  .nav-item--has-dropdown {
+    position: relative;
+  }
+
+  .nav-caret {
+    font-size: 10px;
+    opacity: 0.6;
+    margin-left: 2px;
+  }
+
+  .nav-dropdown {
+    display: none;
+    position: absolute;
+    /* top: 100% means the dropdown starts immediately at the bottom of the <li>
+       — no gap, so the hover state never breaks as the cursor moves down.
+       padding-top creates the visual breathing room without a dead zone. */
+    top: 100%;
+    padding-top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    min-width: 160px;
+    list-style: none;
+    background: var(--ink);
+    border: 2px solid rgba(255,255,255,.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,.5);
+  }
+
+  .nav-dropdown li a {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.8);
+    padding: 11px 18px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    transition: background .12s, color .12s;
+    white-space: nowrap;
+  }
+
+  .nav-dropdown li:last-child a { border-bottom: none; }
+
+  .nav-dropdown li a:hover {
+    background: rgba(255,255,255,.08);
+    color: #fff;
+  }
+
+  .nav-item--has-dropdown:hover .nav-dropdown {
+    display: block;
+  }
+
+  /* Phone CTA */
+  .nav-cta {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--red);
+    padding: 12px 22px;
+    white-space: nowrap;
+    box-shadow: 0 3px 0 var(--ink);
+    transition: box-shadow .15s, transform .15s;
+    flex-shrink: 0;
+  }
+
+  .nav-cta:hover {
+    box-shadow: 0 1px 0 var(--ink);
+    transform: translateY(2px);
+  }
+
+  /* Hamburger button */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.4);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .ham-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    transition: transform .2s, opacity .2s;
+    transform-origin: center;
+  }
+
+  /* Animate to X when open */
+  .nav-hamburger.is-open .ham-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-hamburger.is-open .ham-bar:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-hamburger.is-open .ham-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Mobile panel */
+  .nav-mobile-panel {
+    display: none;
+    flex-direction: column;
+    background: var(--navy);
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding: 16px 24px 24px;
+  }
+
+  .nav-mobile-panel.is-open {
+    display: flex;
+  }
+
+  .nav-mobile-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 20px;
+  }
+
+  .nav-mobile-links a {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.85);
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    transition: color .15s;
+  }
+
+  .nav-mobile-links a:hover {
+    color: #fff;
+  }
+
+  .nav-mobile-sub a {
+    font-size: 15px !important;
+    padding: 7px 0 7px 16px !important;
+    color: rgba(255,255,255,.55) !important;
+    border-bottom: none !important;
+  }
+
+  .nav-mobile-sub a:hover {
+    color: rgba(255,255,255,.9) !important;
+  }
+
+  .nav-mobile-cta {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--red);
+    padding: 14px 20px;
+    text-align: center;
+    box-shadow: 0 3px 0 var(--ink);
+  }
+
+  /* Mobile breakpoint */
+  @media (max-width: 639px) {
+    .nav-inner {
+      padding: 10px 20px;
+    }
+    .nav-links { display: none; }
+    .nav-cta   { display: none; }
+    .nav-hamburger { display: flex; }
+  }
+</style>

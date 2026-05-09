@@ -1,0 +1,279 @@
+---
+// Contact form section — sits above the Contact footer.
+// Uses Netlify Forms: add the `netlify` attribute and Netlify intercepts the submission.
+// The notification email is configured in Netlify dashboard → Forms → Notifications.
+// No backend code needed.
+import { SITE } from '../config';
+const { phoneDisplay: PHONE_DISPLAY, phoneTel: PHONE_TEL } = SITE;
+---
+
+<section class="contact-form-section" id="contact">
+  <div class="section-inner cf-grid">
+
+    <!-- Left: CTA copy -->
+    <div class="cf-copy">
+      <p class="eyebrow cf-eyebrow">Get in touch</p>
+      <h2 class="cf-h2">
+        Got a job?<br />
+        <span class="cf-script">Let's talk.</span>
+      </h2>
+      <p class="cf-body">
+        Fastest way is a call — Phil answers his own phone. If you'd rather send details
+        first, use the form and he'll get back to you within a business day.
+      </p>
+      <a href={`tel:${PHONE_TEL}`} class="cf-phone">
+        ☏ {PHONE_DISPLAY}
+      </a>
+    </div>
+
+    <!-- Right: Form -->
+    <div class="cf-form-wrap">
+      <form
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        class="cf-form"
+      >
+        <!-- Honeypot field — hidden from humans, catches bots -->
+        <p class="cf-honeypot">
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
+
+        <div class="cf-field">
+          <label class="cf-label" for="cf-name">Your name</label>
+          <input
+            class="cf-input"
+            type="text"
+            id="cf-name"
+            name="name"
+            placeholder="First and last"
+            required
+          />
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="cf-phone">Best phone number</label>
+          <input
+            class="cf-input"
+            type="tel"
+            id="cf-phone"
+            name="phone"
+            placeholder="(828) 555-0100"
+            required
+          />
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="cf-email">Email address</label>
+          <input
+            class="cf-input"
+            type="email"
+            id="cf-email"
+            name="email"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div class="cf-field">
+          <label class="cf-label" for="cf-message">What do you need?</label>
+          <textarea
+            class="cf-input cf-textarea"
+            id="cf-message"
+            name="message"
+            placeholder="Describe the job — location, what's happening, any timeline. More detail = faster response."
+            rows="5"
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="cf-submit">Send it →</button>
+
+        <p class="cf-disclaimer">
+          Phil usually responds within a business day. For urgent issues, call directly.
+        </p>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .contact-form-section {
+    background: var(--navy);
+    padding: var(--section-pad-v) 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle halftone overlay for texture */
+  .contact-form-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.04) 1.2px, transparent 1.4px);
+    background-size: 14px 14px;
+    pointer-events: none;
+  }
+
+  /* Grid */
+  .cf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 64px;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Left copy */
+  .cf-eyebrow {
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .cf-h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(36px, 4.5vw, 56px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 24px;
+  }
+
+  .cf-script {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(38px, 4.5vw, 58px);
+    color: var(--red-soft);
+    text-transform: none;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .cf-body {
+    font-size: 16px;
+    color: rgba(255,255,255,.65);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    max-width: 380px;
+  }
+
+  .cf-phone {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: #fff;
+    border-bottom: 3px solid var(--red);
+    padding-bottom: 4px;
+    transition: color .15s;
+  }
+
+  .cf-phone:hover { color: var(--red-soft); }
+
+  /* Form */
+  .cf-form-wrap {
+    background: #fff;
+    border: 3px solid var(--ink);
+    box-shadow: 8px 8px 0 var(--ink);
+    padding: 36px 32px;
+  }
+
+  .cf-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Hidden honeypot */
+  .cf-honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .cf-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .cf-input {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    padding: 10px 14px;
+    width: 100%;
+    transition: border-color .15s, box-shadow .15s;
+    outline: none;
+  }
+
+  .cf-input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(31, 78, 156, 0.15);
+  }
+
+  .cf-textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .cf-submit {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--red);
+    border: none;
+    padding: 16px 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--red-shadow);
+    transition: box-shadow .15s, transform .15s;
+    align-self: flex-start;
+  }
+
+  .cf-submit:hover {
+    box-shadow: 0 1px 0 var(--red-shadow);
+    transform: translateY(3px);
+  }
+
+  .cf-disclaimer {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .cf-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .cf-body { max-width: none; }
+  }
+
+  @media (max-width: 639px) {
+    .cf-form-wrap {
+      padding: 24px 20px;
+      /* Reduce shadow so it doesn't push past the viewport edge */
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+    /* Full-width submit button on mobile — easier to tap */
+    .cf-submit { align-self: stretch; }
+  }
+</style>

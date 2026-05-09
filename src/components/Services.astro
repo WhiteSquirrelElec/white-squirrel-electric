@@ -1,0 +1,192 @@
+---
+const services = [
+  {
+    num: '01',
+    title: 'Residential service & repair',
+    body: 'Tripped breakers, dead outlets, switches that stopped working, panels, fixtures, fans — if something\'s wrong, Phil finds it and fixes it right.',
+    accent: 'red',
+  },
+  {
+    num: '02',
+    title: 'Lighting & custom installs',
+    body: 'Recessed cans, dimmers, clean TV setups with hidden receptacles, dedicated home office and media room circuits — done clean and built to last.',
+    accent: 'blue',
+  },
+  {
+    num: '03',
+    title: 'Outdoor & deck electrical',
+    body: 'Conduit runs, weatherproof outlets, sconce wiring, motion floods, security lights, and camera power feeds for decks, porches, and exteriors.',
+    accent: 'red',
+  },
+  {
+    num: '04',
+    title: 'High-voltage & heavy installs',
+    body: '240V circuits for saunas, jacuzzis, mini-splits, and large appliances. Service upgrades, sub-panels, generators, and EV charger installation.',
+    accent: 'blue',
+  },
+  {
+    num: '05',
+    title: 'New construction',
+    body: 'Full residential electrical from rough-in to trim-out. Plans reviewed up front — no surprises mid-build, no rework.',
+    accent: 'red',
+  },
+  {
+    num: '06',
+    title: 'Light commercial',
+    body: 'Service calls, equipment feeds, and small to mid-scale commercial work in Hendersonville, Brevard, and Asheville. Off-hours when you need it.',
+    accent: 'blue',
+  },
+];
+---
+
+<section class="services" id="services">
+  <!-- Halftone dots pattern overlay -->
+  <div class="services-dots" aria-hidden="true"></div>
+
+  <div class="section-inner services-inner">
+
+    <!-- Header row -->
+    <div class="services-header">
+      <div>
+        <p class="eyebrow services-eyebrow">What I do</p>
+        <h2 class="services-h2">
+          From a flickering<br />
+          light to a whole<br />
+          new service.
+        </h2>
+      </div>
+      <a href="/services" class="services-all-link">See all services →</a>
+    </div>
+
+    <!-- Card grid -->
+    <div class="services-grid">
+      {services.map((s) => (
+        <div class="service-card">
+          <div class={`card-num card-num--${s.accent}`}>{s.num}</div>
+          <h3 class="card-title">{s.title}</h3>
+          <p class="card-body">{s.body}</p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .services {
+    background: var(--navy);
+    padding: var(--section-pad-v) 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .services-dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.04) 1.2px, transparent 1.4px);
+    background-size: 16px 16px;
+    pointer-events: none;
+  }
+
+  .services-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  .services-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .services-eyebrow {
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .services-h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .services-all-link {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    white-space: nowrap;
+    transition: opacity .15s;
+  }
+
+  .services-all-link:hover { opacity: .75; }
+
+  /* Grid */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .service-card {
+    background: #fff;
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 24px 22px;
+    position: relative;
+  }
+
+  .card-num {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 5px 10px;
+    border-right: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .card-num--red  { background: var(--red); }
+  .card-num--blue { background: var(--blue); }
+
+  .card-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-top: 40px;
+    margin-bottom: 12px;
+  }
+
+  .card-body {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #444;
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 639px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .services-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>

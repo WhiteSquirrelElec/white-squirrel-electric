@@ -1,0 +1,240 @@
+---
+import { SITE } from '../config';
+const {
+  phoneDisplay: PHONE_DISPLAY,
+  phoneTel:     PHONE_TEL,
+  email:        EMAIL,
+  addressLine1: ADDRESS_LINE1,
+  addressLine2: ADDRESS_LINE2,
+  licenseNum:   LICENSE_NUM,
+  googleBusiness, facebook, instagram, nextdoor,
+} = SITE;
+const YEAR = new Date().getFullYear();
+
+// Build social links array — only show buttons for accounts that exist
+const socials = [
+  { label: 'Google', url: googleBusiness },
+  { label: 'Facebook', url: facebook },
+  { label: 'Instagram', url: instagram },
+  { label: 'Nextdoor', url: nextdoor },
+].filter(s => s.url);
+---
+
+<section class="contact">
+  <div class="section-inner contact-grid">
+
+    <!-- Col 1: CTA -->
+    <div class="contact-cta">
+      <h2 class="contact-h2">
+        Got a job?<br />
+        <span class="contact-script">Let's talk.</span>
+      </h2>
+      <p class="contact-body">
+        Phone is fastest. I usually answer between jobs — and if I'm in a panel
+        I'll call you back inside the hour.
+      </p>
+    </div>
+
+    <!-- Col 2: Contact details -->
+    <div class="contact-details">
+      <div class="detail">
+        <span class="detail-label">Phone</span>
+        <a href={`tel:${PHONE_TEL}`} class="detail-value">{PHONE_DISPLAY}</a>
+        <span class="detail-sub">Fastest — I answer my own phone</span>
+      </div>
+      <div class="detail">
+        <span class="detail-label">Email</span>
+        <a href={`mailto:${EMAIL}`} class="detail-value">{EMAIL}</a>
+        <span class="detail-sub">Response within a business day</span>
+      </div>
+    </div>
+
+    <!-- Col 3: Address + social -->
+    <div class="contact-info">
+      {ADDRESS_LINE1 ? (
+        <div class="detail">
+          <span class="detail-label">Shop</span>
+          <span class="detail-value detail-value--plain">{ADDRESS_LINE1}</span>
+          <span class="detail-sub">{ADDRESS_LINE2}</span>
+        </div>
+      ) : (
+        <div class="detail">
+          <span class="detail-label">Serving</span>
+          <span class="detail-value detail-value--plain">Western NC</span>
+          <span class="detail-sub">Hendersonville · Brevard · Asheville</span>
+        </div>
+      )}
+      {socials.length > 0 && (
+        <div class="contact-social">
+          {socials.map(s => (
+            <a href={s.url} class="social-btn" aria-label={s.label} target="_blank" rel="noopener noreferrer">
+              {s.label}
+            </a>
+          ))}
+        </div>
+      )}
+      {socials.length === 0 && (
+        <p class="contact-social-soon">Social links coming soon.</p>
+      )}
+    </div>
+
+  </div>
+
+  <!-- Copyright -->
+  <div class="contact-copy">
+    <div class="section-inner contact-copy-inner">
+      <span>© {YEAR} White Squirrel Electric, LLC · NC GC {LICENSE_NUM}</span>
+      <span>Hendersonville · Brevard · Asheville · Western NC</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--ink);
+    color: #fff;
+    padding: 60px 0 0;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 48px;
+    padding-bottom: 60px;
+    align-items: start;
+  }
+
+  /* CTA col */
+  .contact-h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .contact-script {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(40px, 4.5vw, 56px);
+    color: var(--red-soft);
+    text-transform: none;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .contact-body {
+    font-size: 16px;
+    color: rgba(255,255,255,.65);
+    line-height: 1.6;
+  }
+
+  /* Detail blocks */
+  .detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 28px;
+  }
+
+  .detail-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .detail-value {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    color: #fff;
+    line-height: 1.1;
+    transition: color .15s;
+    overflow-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .detail-value:hover { color: var(--red-soft); }
+
+  .detail-value--plain { /* non-link version */
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+  }
+
+  .detail-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,.45);
+  }
+
+  /* Social buttons */
+  .contact-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .social-btn {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.8);
+    border: 2px solid rgba(255,255,255,.3);
+    padding: 6px 12px;
+    transition: border-color .15s, color .15s;
+  }
+
+  .social-btn:hover {
+    border-color: #fff;
+    color: #fff;
+  }
+
+  .contact-social-soon {
+    font-size: 13px;
+    color: rgba(255,255,255,.3);
+    font-style: italic;
+  }
+
+  /* Copyright bar */
+  .contact-copy {
+    border-top: 1px solid rgba(255,255,255,.1);
+    padding: 20px 0;
+  }
+
+  .contact-copy-inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .contact-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .contact-cta { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 639px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .contact-copy-inner { flex-direction: column; }
+    /* Shrink the Anton contact values so long email doesn't overflow */
+    .detail-value       { font-size: 18px; }
+    .detail-value--plain { font-size: 16px; }
+    .contact-h2  { font-size: 32px; }
+    .contact-script { font-size: 36px; }
+  }
+</style>

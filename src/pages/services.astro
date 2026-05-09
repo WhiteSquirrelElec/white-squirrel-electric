@@ -1,0 +1,423 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Contact from '../components/Contact.astro';
+import { SITE } from '../config';
+
+const categories = [
+  {
+    num: '01',
+    title: 'Residential service & repair',
+    accent: 'red',
+    intro: 'The everyday stuff, done right. Phil is the person you call when something stops working.',
+    items: [
+      {
+        name: 'Troubleshooting',
+        desc: 'Tripped breakers, outlets that stopped working, switches with no apparent reason — Phil tracks down the cause and fixes it, not just the symptom.',
+      },
+      {
+        name: 'Outlets, switches & fixtures',
+        desc: 'Replacement, relocation, or addition of outlets, switches, dimmers, and light fixtures throughout the home.',
+      },
+      {
+        name: 'Ceiling fans',
+        desc: 'Install, replace, or rewire ceiling fans — including adding fan support boxes when a standard junction box won\'t hold the weight.',
+      },
+      {
+        name: 'Panel work & service calls',
+        desc: 'Breaker replacement, panel inspection, and general service calls. Phil tells you what he found and what actually needs to be done.',
+      },
+    ],
+  },
+  {
+    num: '02',
+    title: 'Lighting & custom installs',
+    accent: 'blue',
+    intro: 'New lighting done clean — no visible wire, no cut corners, no going back to fix it later.',
+    items: [
+      {
+        name: 'Recessed lighting',
+        desc: 'New can installations, conversions from older fixtures, and layout planning so you end up with a result that actually looks intentional.',
+      },
+      {
+        name: 'Dimmers & controls',
+        desc: 'Dimmers that work correctly with LED loads, multi-location switching, and smart dimmer wiring. No flickering, no buzzing.',
+      },
+      {
+        name: 'Clean TV & media setups',
+        desc: 'Custom receptacle placement behind the TV for a zero-visible-cord install. Dedicated circuits for home theaters or media rooms where power quality matters.',
+      },
+      {
+        name: 'Home office circuits',
+        desc: 'Dedicated circuits for home offices with heavy draw equipment — printers, external monitors, NAS drives — so your breaker doesn\'t trip mid-call.',
+      },
+      {
+        name: 'Gas fireplace receptacles',
+        desc: 'In-wall receptacle installation inside fireplace chases for gas fireplace inserts — done to code, concealed cleanly.',
+      },
+    ],
+  },
+  {
+    num: '03',
+    title: 'Outdoor & deck electrical',
+    accent: 'red',
+    intro: 'Outdoor electrical that\'s built to handle Western NC weather — done in conduit, done to code, done to last.',
+    items: [
+      {
+        name: 'Deck & porch wiring',
+        desc: 'Conduit runs, weatherproof outlet boxes, junction boxes, and all supporting electrical infrastructure for deck and porch fans, sconces, and post lights.',
+      },
+      {
+        name: 'Exterior lighting',
+        desc: 'Motion sensor flood lights, security lights, accent lighting, and architectural fixture wiring for the home exterior.',
+      },
+      {
+        name: 'Security camera power',
+        desc: 'Electrical infrastructure only — weatherproof outlet placement and power feeds for security cameras. Camera programming is not included.',
+      },
+      {
+        name: 'Outdoor receptacles',
+        desc: 'GFCI-protected weatherproof outlets on decks, patios, driveways, and garages. Correct for code and built to handle outdoor exposure.',
+      },
+    ],
+  },
+  {
+    num: '04',
+    title: 'High-voltage & heavy installs',
+    accent: 'blue',
+    intro: '240V circuits, service upgrades, generators, and EV chargers — the work that requires a licensed contractor who knows what they\'re doing.',
+    items: [
+      {
+        name: '240V specialty circuits',
+        desc: 'Dedicated 240V circuits for saunas, jacuzzis, cold plunges, hot tubs, mini-splits, large appliances, and workshop equipment.',
+      },
+      {
+        name: 'Service & panel upgrades',
+        desc: '200A service upgrades, sub-panel installation, and panel replacements. If your panel is running out of capacity, Phil evaluates the real scope before you commit.',
+      },
+      {
+        name: 'Whole-home backup generators',
+        desc: 'Generator interlock installation and proper transfer switch wiring. Western NC weather makes this a real consideration — Phil does it right.',
+      },
+      {
+        name: 'EV charger installation (Level 2)',
+        desc: 'Level 2 (240V, 50A) home EV charger installation. Simple installs where the panel has capacity are straightforward. If a panel upgrade is required, the scope changes significantly — Phil evaluates every EV job upfront and gives you an honest picture before any work begins.',
+      },
+    ],
+  },
+  {
+    num: '05',
+    title: 'New construction',
+    accent: 'red',
+    intro: 'Full residential electrical from the ground up — rough-in through trim-out, done right the first time.',
+    items: [
+      {
+        name: 'Rough-in',
+        desc: 'Full rough-in wiring for new construction: panel location, home runs, box placement, and coordination with framing and HVAC trades.',
+      },
+      {
+        name: 'Trim-out',
+        desc: 'Device installation, fixture hanging, and panel termination once drywall is done. Phil works to your schedule and communicates directly.',
+      },
+      {
+        name: 'Plan review',
+        desc: 'Phil reviews electrical plans up front to catch layout issues before they become expensive mid-build changes. No surprises.',
+      },
+    ],
+  },
+  {
+    num: '06',
+    title: 'Light commercial',
+    accent: 'blue',
+    intro: 'Commercial work in the Hendersonville, Brevard, and Asheville area — small to mid-scale, done with the same care as residential.',
+    items: [
+      {
+        name: 'Service calls & troubleshooting',
+        desc: 'Commercial service calls for offices, retail, restaurants, and light industrial. Phil diagnoses and fixes, doesn\'t guess.',
+      },
+      {
+        name: 'Equipment electrical feeds',
+        desc: 'Dedicated circuits and proper termination for commercial kitchen equipment, HVAC units, compressors, and specialty equipment.',
+      },
+      {
+        name: 'Tenant fit-ups',
+        desc: 'Electrical work for tenant improvements and build-outs. Off-hours scheduling available so your business stays open during work.',
+      },
+    ],
+  },
+];
+---
+
+<Layout
+  title="Services | White Squirrel Electric — Hendersonville, NC"
+  description="Residential repair, lighting, outdoor electrical, high-voltage installs, new construction, and light commercial. Phil Brisson, licensed NC electrician."
+>
+  <Nav />
+
+  <main>
+
+    <!-- Page header -->
+    <section class="page-hero">
+      <div class="section-inner page-hero-inner">
+        <p class="eyebrow page-eyebrow">What Phil does</p>
+        <h1 class="page-h1">Services</h1>
+        <p class="page-sub">
+          Every job quoted clearly. Every permit listed separately. No hidden costs,
+          no upsells you don't need.
+        </p>
+        <div class="page-cta-row">
+          <a href={`tel:${SITE.phoneTel}`} class="btn-primary">Call to discuss your job</a>
+          <a href="/#contact" class="btn-secondary">Or send a note</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Service categories -->
+    <div class="categories-wrap">
+      {categories.map((cat) => (
+        <section class={`category category--${cat.accent}`} id={`cat-${cat.num}`}>
+          <div class="section-inner category-inner">
+
+            <div class="cat-header">
+              <div class={`cat-num cat-num--${cat.accent}`}>{cat.num}</div>
+              <div>
+                <h2 class="cat-title">{cat.title}</h2>
+                <p class="cat-intro">{cat.intro}</p>
+              </div>
+            </div>
+
+            <div class="items-grid">
+              {cat.items.map((item) => (
+                <div class="item-card">
+                  <h3 class="item-name">{item.name}</h3>
+                  <p class="item-desc">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <!-- Bottom CTA strip -->
+    <section class="services-cta">
+      <div class="section-inner services-cta-inner">
+        <p class="services-cta-h">Not sure if this is the right job for Phil?</p>
+        <p class="services-cta-sub">Call and describe what you've got. Phil will tell you honestly whether it's a job he can help with — or point you toward someone who can.</p>
+        <a href={`tel:${SITE.phoneTel}`} class="btn-primary">Call {SITE.phoneDisplay}</a>
+      </div>
+    </section>
+
+  </main>
+
+  <ContactForm />
+  <Contact />
+</Layout>
+
+<style>
+  /* ── Page hero ── */
+  .page-hero {
+    background: radial-gradient(ellipse at 20% 0%, #2c5fb5 0%, var(--navy) 60%, #0d1d3d 100%);
+    padding: 72px 0 64px;
+  }
+
+  .page-hero-inner {
+    max-width: 760px;
+  }
+
+  .page-eyebrow {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .24em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .page-h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(56px, 8vw, 96px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .page-sub {
+    font-size: 19px;
+    color: rgba(255,255,255,.75);
+    line-height: 1.55;
+    max-width: 560px;
+    margin-bottom: 36px;
+  }
+
+  .page-cta-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--red);
+    padding: 14px 26px;
+    box-shadow: 0 4px 0 var(--red-shadow);
+    transition: box-shadow .15s, transform .15s;
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 1px 0 var(--red-shadow);
+    transform: translateY(3px);
+  }
+
+  .btn-secondary {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.8);
+    border: 2px solid rgba(255,255,255,.35);
+    padding: 12px 22px;
+    transition: border-color .15s, color .15s;
+  }
+
+  .btn-secondary:hover {
+    border-color: #fff;
+    color: #fff;
+  }
+
+  /* ── Category sections ── */
+  .category {
+    padding: 72px 0;
+    border-bottom: 3px solid var(--ink);
+  }
+
+  .category--red { background: var(--paper); }
+  .category--blue { background: #fff; }
+
+  .category-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* Category header: number + title block */
+  .cat-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+  }
+
+  .cat-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 14px;
+    letter-spacing: .14em;
+    color: #fff;
+    padding: 8px 14px;
+    border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 6px;
+  }
+
+  .cat-num--red  { background: var(--red); }
+  .cat-num--blue { background: var(--blue); }
+
+  .cat-title {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .cat-intro {
+    font-size: 17px;
+    color: #555;
+    line-height: 1.55;
+    max-width: 640px;
+  }
+
+  /* Items grid */
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .item-card {
+    border: 2px solid var(--ink);
+    padding: 22px 20px;
+    background: #fff;
+  }
+
+  .category--blue .item-card {
+    background: var(--paper);
+  }
+
+  .item-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .item-desc {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+  }
+
+  /* ── Bottom CTA ── */
+  .services-cta {
+    background: var(--ink);
+    padding: 72px 0;
+  }
+
+  .services-cta-inner {
+    max-width: 680px;
+  }
+
+  .services-cta-h {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .services-cta-sub {
+    font-size: 17px;
+    color: rgba(255,255,255,.65);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1023px) {
+    .items-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 639px) {
+    .page-hero { padding: 48px 0 40px; }
+    .cat-header { flex-direction: column; gap: 16px; }
+    .category { padding: 48px 0; }
+  }
+</style>

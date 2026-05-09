@@ -1,0 +1,175 @@
+---
+// ✅ Bio copy approved by Phil (May 2026 copy review doc)
+import { SITE } from '../config';
+const { licenseNum: LICENSE_NUM, insured: INSURANCE_AMOUNT } = SITE;
+const SERVICE_RADIUS = '30 mi'; // ✅ confirmed by Phil
+---
+
+<section class="about" id="about">
+  <div class="section-inner about-grid">
+
+    <!-- Photo column -->
+    <div class="about-photo-wrap">
+      <div class="about-badge">Solo shop<br />since '25</div>
+      <img
+        src="/assets/phil-onsite.jpg"
+        alt="Phil Brisson on a job site"
+        class="about-photo"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Copy column -->
+    <div class="about-copy">
+      <p class="eyebrow about-eyebrow">Meet the Squirrel</p>
+      <h2 class="about-h2">Hey — I'm Phil Brisson.</h2>
+
+      <p class="about-p">
+        I joined the electrical trade in 2013 and have been honing my craft ever since.
+        I've worked in courthouses, airports, hospitals, residential houses, industrial
+        car plants, data centers and even nuke plants. Now I'm on my own and I work for
+        you. No subs, no call center. You call, I answer.
+      </p>
+      <p class="about-p">
+        The white squirrels are real, by the way. This area is particularly known for
+        this species of squirrel, so what better mascot to have than a regional favorite.
+        I do the work right, I price it fair, and I tell you what I think — even if that
+        means talking you out of something you don't actually need.
+      </p>
+
+      <!-- Stats row -->
+      <div class="about-stats">
+        <div class="stat">
+          <span class="stat-num">NC GC</span>
+          <span class="stat-label">Lic. {LICENSE_NUM}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">{INSURANCE_AMOUNT}</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">{SERVICE_RADIUS}</span>
+          <span class="stat-label">around Hendersonville</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--paper);
+    padding: var(--section-pad-v) 0;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  /* Photo */
+  .about-photo-wrap {
+    position: relative;
+  }
+
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    border: 4px solid var(--ink);
+    box-shadow: 12px 12px 0 var(--red);
+    display: block;
+  }
+
+  .about-badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    z-index: 2;
+    background: var(--blue);
+    color: #fff;
+    font-family: 'Anton', sans-serif;
+    font-size: 14px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    line-height: 1.2;
+    text-align: center;
+    border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    transform: rotate(6deg);
+  }
+
+  /* Copy */
+  .about-eyebrow {
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .about-h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+
+  .about-p {
+    font-size: 19px;
+    line-height: 1.6;
+    color: #3a3330;
+    margin-bottom: 20px;
+  }
+
+  /* Stats */
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 3px solid var(--ink);
+    margin-top: 36px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 12px;
+    text-align: center;
+    border-right: 3px solid var(--ink);
+    background: #fff;
+  }
+
+  .stat:last-child { border-right: none; }
+
+  .stat-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    color: var(--blue);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: #666;
+  }
+
+  /* Responsive */
+  @media (max-width: 1023px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-photo-wrap { max-width: 420px; }
+  }
+
+  @media (max-width: 639px) {
+    .about-stats { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 3px solid var(--ink); }
+    .stat:last-child { border-bottom: none; }
+  }
+</style>

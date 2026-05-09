@@ -1,0 +1,158 @@
+---
+import { SITE } from '../config';
+const GOOGLE_URL = SITE.googleBusiness;
+
+// ✅ Real reviews only — add more here as Phil collects them.
+// Pending: Daniel Fonseca (ring camera job), Joy (~12 receptacles).
+// Future: wire to Google Places API to pull live from Google Business.
+const reviews = [
+  {
+    body: "Phil did all the outdoor wiring, conduit, lighting, and fan installations for a massive 2-level deck/patio I had built in 2025. He coordinated and worked well with my other contractors to make sure all the electrical work was planned and done without causing any rework or delays. He was extremely responsive, friendly, professional, and always left the space better than when he showed up. One of the best contractors I've ever worked with — I would have happily paid him more than he charged.",
+    name: 'John B.',
+    location: 'Etowah, NC',
+  },
+];
+---
+
+<section class="reviews" id="reviews">
+  <div class="section-inner">
+
+    <div class="reviews-header">
+      <p class="eyebrow reviews-eyebrow">What folks say</p>
+      <h2 class="reviews-h2">Good word travels.</h2>
+    </div>
+
+    <div class="reviews-grid">
+      {reviews.map((r, i) => (
+        <div class={`review-card review-card--${i % 2 === 0 ? 'plus' : 'minus'}`}>
+          <div class="review-quote">&ldquo;</div>
+          <p class="review-body">{r.body}</p>
+          <div class="review-footer">
+            <strong>{r.name}</strong> · {r.location} · ★★★★★
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {GOOGLE_URL && (
+      <div class="reviews-google-link">
+        <a href={GOOGLE_URL} target="_blank" rel="noopener noreferrer" class="google-link">
+          ★ Read our reviews on Google
+        </a>
+      </div>
+    )}
+
+  </div>
+</section>
+
+<style>
+  .reviews {
+    background: linear-gradient(160deg, var(--red) 0%, #a4111e 100%);
+    padding: var(--section-pad-v) 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Halftone overlay */
+  .reviews::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,.06) 1.2px, transparent 1.4px);
+    background-size: 16px 16px;
+    pointer-events: none;
+  }
+
+  .section-inner { position: relative; z-index: 1; }
+
+  /* Header */
+  .reviews-header { margin-bottom: 48px; }
+
+  .reviews-eyebrow {
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .reviews-h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  /* Grid — auto-fits so 1 card centers, 2 cards side-by-side, 3 cards full row */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 560px));
+    justify-content: center;
+    gap: 24px;
+  }
+
+  /* Cards */
+  .review-card {
+    background: #fff;
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    padding: 28px 24px 24px;
+  }
+
+  .review-card--plus  { transform: rotate( .6deg); }
+  .review-card--minus { transform: rotate(-.6deg); }
+
+  .review-quote {
+    font-family: 'Anton', sans-serif;
+    font-size: 64px;
+    line-height: .8;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .review-body {
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+
+  .review-footer {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #555;
+    border-top: 2px dashed var(--ink);
+    padding-top: 14px;
+  }
+
+  /* Google link */
+  .reviews-google-link {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  .google-link {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    padding: 12px 28px;
+    transition: border-color .15s, background .15s;
+  }
+
+  .google-link:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Responsive — remove card tilt on small screens */
+  @media (max-width: 639px) {
+    .review-card--plus, .review-card--minus { transform: none; }
+  }
+</style>

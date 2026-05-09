@@ -1,0 +1,102 @@
+---
+import { SITE } from '../config';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = SITE.siteTitle,
+  description = SITE.siteDescription,
+} = Astro.props;
+
+// JSON-LD structured data — tells Google exactly what this business is.
+// "Electrician" is a Schema.org type that inherits from LocalBusiness,
+// so it gets all the local search signals plus the trade-specific category.
+const schema = {
+  "@context": "https://schema.org",
+  "@type": ["Electrician", "GeneralContractor"],
+  "name": "White Squirrel Electric LLC",
+  "description": SITE.siteDescription,
+  "url": SITE.siteUrl,
+  "telephone": `+1${SITE.phoneTel}`,
+  "email": SITE.email,
+  "image": `${SITE.siteUrl}/assets/logo-mascot.png`,
+  "logo": `${SITE.siteUrl}/assets/logo-head.png`,
+  "priceRange": "$$",
+  // No physical address — Phil is mobile/service-area based
+  "areaServed": [
+    { "@type": "City", "name": "Hendersonville", "addressRegion": "NC" },
+    { "@type": "City", "name": "Brevard",         "addressRegion": "NC" },
+    { "@type": "City", "name": "Asheville",        "addressRegion": "NC" },
+    { "@type": "City", "name": "Flat Rock",        "addressRegion": "NC" },
+    { "@type": "City", "name": "Mills River",      "addressRegion": "NC" },
+    { "@type": "City", "name": "Etowah",           "addressRegion": "NC" },
+  ],
+  "geo": {
+    // Approximate center of Phil's service area (Hendersonville, NC)
+    "@type": "GeoCoordinates",
+    "latitude": 35.3182,
+    "longitude": -82.4609
+  },
+  "serviceArea": {
+    "@type": "GeoCircle",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": 35.3182,
+      "longitude": -82.4609
+    },
+    "geoRadius": "48280" // ~30 miles in meters
+  },
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "name": "NC Electrical General Contractor License",
+    "credentialCategory": "license",
+    "recognizedBy": {
+      "@type": "Organization",
+      "name": "North Carolina State Board of Examiners of Electrical Contractors"
+    },
+    "identifier": SITE.licenseNum
+  },
+  "founder": {
+    "@type": "Person",
+    "name": "Phil Brisson",
+    "jobTitle": "Licensed Electrical General Contractor"
+  },
+  "sameAs": [
+    SITE.googleBusiness,
+    SITE.instagram,
+  ].filter(Boolean),
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph (controls how the site looks when shared on social/text) -->
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={SITE.siteUrl} />
+    <meta property="og:image"       content={`${SITE.siteUrl}/assets/logo-mascot.png`} />
+
+    <title>{title}</title>
+    <link rel="canonical" href={SITE.siteUrl} />
+    <link rel="icon" type="image/png" href="/assets/logo-head.png" />
+
+    <!-- LocalBusiness structured data — machine-readable signal to Google -->
+    <script type="application/ld+json" set:html={JSON.stringify(schema, null, 2)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  @import '../styles/global.css';
+</style>

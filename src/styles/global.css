@@ -1,0 +1,96 @@
+/* ============================================================
+   WHITE SQUIRREL ELECTRIC — Global Styles
+   Design tokens from handoff README
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Pacifico&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Caveat+Brush&display=swap');
+
+/* ── Design Tokens ── */
+:root {
+  --red:        #CC1F2D;
+  --red-shadow: #7a0d18;
+  --red-soft:   #FF5F6B;
+  --blue:       #1F4E9C;
+  --navy:       #142E5C;
+  --cream:      #F4EDE0;
+  --paper:      #FBF6EC;
+  --ink:        #1A1411;
+  --gold:       #FFD24A;
+
+  --max-width:  1180px;
+  --section-pad-v: 80px;
+  --section-pad-h: 48px;
+
+  /* Nav height — used to offset body so content isn't hidden behind the fixed nav */
+  --nav-height: 66px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  /* When jumping to an anchor (#about, #services etc.), offset the scroll
+     target by the nav height so the fixed nav doesn't cover the section top */
+  scroll-padding-top: var(--nav-height);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  /* Push all page content below the fixed nav */
+  padding-top: var(--nav-height);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Utility ── */
+.section-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--section-pad-h);
+}
+
+@media (max-width: 639px) {
+  :root {
+    --section-pad-h: 20px;
+    --section-pad-v: 56px;
+    --nav-height: 62px;
+  }
+}
+
+.eyebrow {
+  font-family: 'Oswald', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+
+/* ── Animations ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tick {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
