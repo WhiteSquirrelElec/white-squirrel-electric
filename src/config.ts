@@ -29,6 +29,7 @@ export const SITE = {
   // ── Social links ──────────────────────────────────────────────────────
   // Leave as '' to hide a button
   googleBusiness: 'https://maps.app.goo.gl/PdGxUVmodj69GVay9', // ✅ Phil's Google Business profile
+  googleReviewLink: 'https://g.page/r/Ca58fUYnjuVZEAI/review', // ✅ Direct "leave a review" link
   facebook:       '',   // TODO: add when Phil sets up
   instagram:      'https://www.instagram.com/whitesquirrelelectric/', // ✅ confirmed by Phil
   nextdoor:       '',   // TODO: add when Phil sets up

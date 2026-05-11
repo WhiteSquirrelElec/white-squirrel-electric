@@ -1,15 +1,35 @@
 ---
 import { SITE } from '../config';
 const GOOGLE_URL = SITE.googleBusiness;
+const REVIEW_URL = SITE.googleReviewLink;
 
-// ✅ Real reviews only — add more here as Phil collects them.
-// Pending: Daniel Fonseca (ring camera job), Joy (~12 receptacles).
+// ✅ Real reviews — rotating highlight carousel.
+// Showing a punchy pull-quote from each; full text preserved in comments.
 // Future: wire to Google Places API to pull live from Google Business.
 const reviews = [
   {
-    body: "Phil did all the outdoor wiring, conduit, lighting, and fan installations for a massive 2-level deck/patio I had built in 2025. He coordinated and worked well with my other contractors to make sure all the electrical work was planned and done without causing any rework or delays. He was extremely responsive, friendly, professional, and always left the space better than when he showed up. One of the best contractors I've ever worked with — I would have happily paid him more than he charged.",
+    highlight: "One of the best contractors I've ever worked with — I would have happily paid him more than he charged.",
+    // Full: "Phil did all the outdoor wiring, conduit, lighting, and fan installations for a massive 2-level deck/patio I had built in 2025. He coordinated and worked well with my other contractors to make sure all the electrical work was planned and done without causing any rework or delays. He was extremely responsive, friendly, professional, and always left the space better than when he showed up. One of the best contractors I've ever worked with — I would have happily paid him more than he charged."
     name: 'John B.',
     location: 'Etowah, NC',
+  },
+  {
+    highlight: "It's hard to find someone this reliable and thorough these days.",
+    // Full: "I highly recommend Phil & this company to anyone looking for quality work at a fair price. He takes a lot of pride in what he does, and it really shows in the finished work. Everything was clean, detailed, and professionally done from start to finish. He has a great personality, communicates well, and treats every project with care and attention to detail. It's hard to find someone this reliable and thorough these days. I would absolutely recommend him to anyone I know. Thank you Phill!!!"
+    name: 'Katlyn Fonseca',
+    location: 'Google Review',
+  },
+  {
+    highlight: "He is so polite and professional! I will call him again for all of my electrical needs!",
+    // Full: "Phillip did a fantastic job! He is so polite and professional! I will call him again for all of my electrical needs!"
+    name: 'Alyssa Hatfield',
+    location: 'Google Review',
+  },
+  {
+    highlight: "Professional, on time, and excellent work — he explained everything before leaving and made sure it was all working properly.",
+    // Full: "I had a great experience with this electrician installing my Ring floodlight camera in my driveway. He was professional, on time, and did an excellent job with the installation. Everything was mounted securely, wired neatly, and set up perfectly. He also made sure the camera angle and motion detection were positioned just right for maximum coverage. The floodlight works great, and the whole setup looks clean and professional. I really appreciated how he explained everything before leaving and made sure it was all working properly. Highly recommend for anyone needing electrical work or security camera installation!"
+    name: 'Daniel Fonseca',
+    location: 'Google Review',
   },
 ];
 ---
@@ -22,25 +42,38 @@ const reviews = [
       <h2 class="reviews-h2">Good word travels.</h2>
     </div>
 
-    <div class="reviews-grid">
+    <div class="reviews-carousel" aria-live="polite">
       {reviews.map((r, i) => (
-        <div class={`review-card review-card--${i % 2 === 0 ? 'plus' : 'minus'}`}>
-          <div class="review-quote">&ldquo;</div>
-          <p class="review-body">{r.body}</p>
-          <div class="review-footer">
-            <strong>{r.name}</strong> · {r.location} · ★★★★★
+        <div class="review-slide" data-index={i} aria-hidden={i !== 0 ? 'true' : 'false'}>
+          <div class="review-open-quote">&ldquo;</div>
+          <p class="review-highlight">{r.highlight}</p>
+          <div class="review-attribution">
+            <span class="review-stars">★★★★★</span>
+            <span class="review-name">{r.name}</span>
+            <span class="review-location">{r.location}</span>
           </div>
         </div>
       ))}
     </div>
 
-    {GOOGLE_URL && (
-      <div class="reviews-google-link">
+    <div class="reviews-dots" aria-hidden="true">
+      {reviews.map((_, i) => (
+        <button class="reviews-dot" data-dot={i} aria-label={`Review ${i + 1}`}></button>
+      ))}
+    </div>
+
+    <div class="reviews-actions">
+      {GOOGLE_URL && (
         <a href={GOOGLE_URL} target="_blank" rel="noopener noreferrer" class="google-link">
           ★ Read our reviews on Google
         </a>
-      </div>
-    )}
+      )}
+      {REVIEW_URL && (
+        <a href={REVIEW_URL} target="_blank" rel="noopener noreferrer" class="google-link google-link--filled">
+          ✎ Leave us a review!
+        </a>
+      )}
+    </div>
 
   </div>
 </section>
@@ -66,7 +99,7 @@ const reviews = [
   .section-inner { position: relative; z-index: 1; }
 
   /* Header */
-  .reviews-header { margin-bottom: 48px; }
+  .reviews-header { margin-bottom: 56px; }
 
   .reviews-eyebrow {
     color: var(--gold);
@@ -81,56 +114,118 @@ const reviews = [
     color: #fff;
   }
 
-  /* Grid — auto-fits so 1 card centers, 2 cards side-by-side, 3 cards full row */
-  .reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 560px));
+  /* Carousel container — fixed height so slides don't shift layout */
+  .reviews-carousel {
+    position: relative;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* Individual slides — stacked, fading in/out */
+  .review-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 24px;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+    pointer-events: none;
   }
 
-  /* Cards */
-  .review-card {
-    background: #fff;
-    border: 3px solid var(--ink);
-    box-shadow: 6px 6px 0 var(--ink);
-    padding: 28px 24px 24px;
+  .review-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
   }
 
-  .review-card--plus  { transform: rotate( .6deg); }
-  .review-card--minus { transform: rotate(-.6deg); }
-
-  .review-quote {
+  /* Big opening quote mark */
+  .review-open-quote {
     font-family: 'Anton', sans-serif;
-    font-size: 64px;
-    line-height: .8;
-    color: var(--red);
-    margin-bottom: 12px;
+    font-size: 80px;
+    line-height: 0.6;
+    color: rgba(0, 0, 0, 0.75);
+    margin-bottom: 16px;
+    user-select: none;
   }
 
-  .review-body {
-    font-size: 16px;
+  /* The pull-quote itself */
+  .review-highlight {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(22px, 2.8vw, 34px);
     font-style: italic;
-    line-height: 1.6;
+    font-weight: 400;
+    line-height: 1.4;
     color: var(--ink);
-    margin-bottom: 20px;
+    margin-bottom: 28px;
   }
 
-  .review-footer {
+  /* Attribution row */
+  .review-attribution {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .review-stars {
+    color: var(--gold);
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  .review-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .review-location {
     font-family: 'Oswald', sans-serif;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: .1em;
     text-transform: uppercase;
-    color: #555;
-    border-top: 2px dashed var(--ink);
-    padding-top: 14px;
+    color: rgba(255, 255, 255, 0.6);
   }
 
-  /* Google link */
-  .reviews-google-link {
+  /* Dot indicators */
+  .reviews-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 48px;
+    margin-bottom: 8px;
+  }
+
+  .reviews-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background .3s, transform .3s;
+  }
+
+  .reviews-dot.is-active {
+    background: #fff;
+    transform: scale(1.25);
+  }
+
+  /* Action buttons */
+  .reviews-actions {
     margin-top: 40px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
   }
 
   .google-link {
@@ -151,8 +246,69 @@ const reviews = [
     background: rgba(255, 255, 255, 0.1);
   }
 
-  /* Responsive — remove card tilt on small screens */
+  /* Filled variant for the "Leave a review" CTA */
+  .google-link--filled {
+    background: #fff;
+    border-color: #fff;
+    color: var(--red);
+  }
+
+  .google-link--filled:hover {
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(255, 255, 255, 0.88);
+  }
+
+  /* Responsive */
   @media (max-width: 639px) {
-    .review-card--plus, .review-card--minus { transform: none; }
+    .reviews-carousel { min-height: 280px; }
+    .review-highlight { font-size: clamp(22px, 6vw, 30px); }
   }
 </style>
+
+<script>
+  (function () {
+    const slides = Array.from(document.querySelectorAll('.review-slide'));
+    const dots   = Array.from(document.querySelectorAll('.reviews-dot'));
+    if (!slides.length) return;
+
+    let current = 0;
+    let timer;
+
+    function show(index) {
+      slides[current].classList.remove('is-active');
+      slides[current].setAttribute('aria-hidden', 'true');
+      dots[current].classList.remove('is-active');
+
+      current = index;
+
+      slides[current].classList.add('is-active');
+      slides[current].setAttribute('aria-hidden', 'false');
+      dots[current].classList.add('is-active');
+    }
+
+    function next() {
+      show((current + 1) % slides.length);
+    }
+
+    function startTimer() {
+      timer = setInterval(next, 6000);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      startTimer();
+    }
+
+    // Init
+    show(0);
+    startTimer();
+
+    // Clicking a dot jumps to that slide and resets the auto-advance timer
+    dots.forEach(function(dot, i) {
+      dot.addEventListener('click', function() {
+        show(i);
+        resetTimer();
+      });
+    });
+  })();
+</script>
